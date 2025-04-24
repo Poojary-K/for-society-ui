@@ -4,4 +4,186 @@
   bottom: 0;
   left: 0;
   right: 0;
+  background-color: #ffffff;
+  transition: background-color 0.3s ease;
+}
+
+.sidenav {
+  background-color: #000000;
+  color: #ffffff;
+  width: 250px;
+  transition: background-color 0.3s ease;
+}
+
+.main-content {
+  background-color: #ffffff;
+  transition: background-color 0.3s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+// Profile section
+.profile-section {
+  padding: 15px 16px;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.profile-avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  overflow: hidden;
+  margin-right: 10px;
+  background-color: #333;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .avatar-fallback {
+    &::after {
+      content: 'U';
+      font-size: 24px;
+      color: white;
+      font-weight: bold;
+    }
+  }
+}
+
+.profile-info {
+  overflow: hidden;
+}
+
+.profile-name {
+  font-size: 16px;
+  font-weight: 500;
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.profile-email {
+  font-size: 12px;
+  margin: 0;
+  opacity: 0.7;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+// Navigation items
+.nav-options {
+  padding: 16px 0;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  height: 48px;
+  padding: 0 16px;
+  text-decoration: none;
+  color: #ffffff;
+  transition: background-color 0.2s ease;
+
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+
+  &.active {
+    background-color: rgba(255, 255, 255, 0.15);
+    font-weight: 500;
+  }
+
+  mat-icon {
+    margin-right: 16px;
+  }
+}
+
+// Main content area
+.main-toolbar {
+  display: flex;
+  align-items: center;
+  padding: 15px 16px;
+  background-color: #ffffff;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  transition: background-color 0.3s ease;
+}
+
+.content-area {
+  padding: 16px;
+  flex: 1;
+  overflow: auto;
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+// Media query for responsive behavior
+@media screen and (min-width: 768px) {
+  .md\:hidden {
+    display: none;
+  }
+}
+
+// Dark mode styles
+.dark-mode {
+  .example-container {
+    background-color: #121212;
+  }
+
+  .main-content {
+    background-color: #121212;
+    color: #ffffff;
+  }
+
+  .main-toolbar {
+    background-color: #1e1e1e;
+    border-bottom-color: rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+  }
+
+  .sidenav {
+    background-color: #1e1e1e;
+  }
+}
+
+// Add some basic utility classes similar to Tailwind
+.p-4 {
+  padding: 1rem;
+}
+
+.mb-4 {
+  margin-bottom: 1rem;
+}
+
+.ml-2 {
+  margin-left: 0.5rem;
+}
+
+.text-xl {
+  font-size: 1.25rem;
+  font-weight: 500;
+}
+
+.font-bold {
+  font-weight: 700;
+}
+
+.flex {
+  display: flex;
+}
+
+.items-center {
+  align-items: center;
 }

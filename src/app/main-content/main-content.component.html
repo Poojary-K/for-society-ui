@@ -1,10 +1,53 @@
+  <mat-sidenav-container class="example-container" [class.dark-mode]="isDarkMode">
+    <mat-sidenav
+      #sidebar
+      [mode]="sidenavMode"
+      [opened]="sidenavOpened"
+      class="sidenav">
+      <!-- Profile Section -->
+      <div class="profile-section">
+        <div class="profile-avatar">
+          <img src="" alt="Profile">
+        </div>
+        <div class="profile-info">
+          <h3 class="profile-name">User Name</h3>
+          <p class="profile-email">user&#64;example.com</p>
+        </div>
+      </div>
 
-  <mat-sidenav-container class="example-container">
-    <mat-sidenav style="width: 70%;"  mode="push" #sidebar>
-      sidebar
+      <!-- Navigation Options -->
+      <div class="nav-options">
+        <a class="nav-item" routerLink="/home" routerLinkActive="active">
+          <mat-icon>home</mat-icon>
+          <span>Home</span>
+        </a>
+        <a class="nav-item" routerLink="/donations" routerLinkActive="active">
+          <mat-icon>volunteer_activism</mat-icon>
+          <span>Donations</span>
+        </a>
+        <a class="nav-item" routerLink="/contributions" routerLinkActive="active">
+          <mat-icon>people</mat-icon>
+          <span>Contributions</span>
+        </a>
+      </div>
     </mat-sidenav>
-    <mat-sidenav-content>
-      <p>content <button mat-button (click)="sidebar.toggle()">click me</button></p>
+    <mat-sidenav-content class="main-content">
+      <div class="main-toolbar">
+        <button
+          mat-icon-button
+          (click)="toggleSidebar()"
+          class="md:hidden">
+          <mat-icon>menu</mat-icon>
+        </button>
+        <h1 class="text-xl ml-2">Main Content</h1>
+        <div class="spacer"></div>
+        <button mat-icon-button (click)="toggleTheme()" class="theme-toggle">
+          <mat-icon>{{ isDarkMode ? 'light_mode' : 'dark_mode' }}</mat-icon>
+        </button>
+      </div>
+      <div class="content-area">
+        Your main content goes here
+      </div>
     </mat-sidenav-content>
   </mat-sidenav-container>
 
