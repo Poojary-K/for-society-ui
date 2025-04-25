@@ -3,23 +3,19 @@ import { isPlatformBrowser } from '@angular/common';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { MatSidenav } from '@angular/material/sidenav';
 
+
 @Component({
   selector: 'app-main-content',
   standalone: true,
-  imports: [
-    MatSidenavModule,
-    MatButtonModule,
-    MatIconModule,
-    RouterModule
-  ],
+  imports: [MatSidenavModule, MatButtonModule, MatIconModule, RouterModule],
   templateUrl: './main-content.component.html',
-  styleUrl: './main-content.component.scss'
+  styleUrl: './main-content.component.scss',
 })
 export class MainContentComponent implements OnInit, OnDestroy {
   @ViewChild('sidebar') sidebar!: MatSidenav;
@@ -33,6 +29,7 @@ export class MainContentComponent implements OnInit, OnDestroy {
   private destroy$ = new Subject<void>();
 
   constructor(
+    private router: Router,
     private breakpointObserver: BreakpointObserver,
     @Inject(PLATFORM_ID) private platformId: Object
   ) {
@@ -48,32 +45,38 @@ export class MainContentComponent implements OnInit, OnDestroy {
       }
     }
 
-    this.breakpointObserver.observe([
-      Breakpoints.XSmall,
-      Breakpoints.Small
-    ])
-    .pipe(takeUntil(this.destroy$))
-    .subscribe(result => {
-      this.isMobile = result.matches;
+    this.breakpointObserver
+      .observe([Breakpoints.XSmall, Breakpoints.Small])
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((result) => {
+        this.isMobile = result.matches;
 
-      if (this.isMobile) {
-        this.sidenavMode = 'push';
-        this.sidenavOpened = false;
-      } else {
-        this.sidenavMode = 'side';
-        this.sidenavOpened = true;
-      }
-
-      // Apply changes if sidenav is already initialized
-      if (this.sidebar) {
-        this.sidebar.mode = this.sidenavMode;
-        if (this.sidenavOpened) {
-          this.sidebar.open();
+        if (this.isMobile) {
+          this.sidenavMode = 'push';
+          this.sidenavOpened = false;
         } else {
-          this.sidebar.close();
+          this.sidenavMode = 'side';
+          this.sidenavOpened = true;
         }
-      }
-    });
+
+        // Apply changes if sidenav is already initialized
+        if (this.sidebar) {
+          this.sidebar.mode = this.sidenavMode;
+          if (this.sidenavOpened) {
+            this.sidebar.open();
+          } else {
+            this.sidebar.close();
+          }
+        }
+      });
+  }
+
+  loadComponent(componentName: string) {
+    this.router.navigate([componentName]);
+
+    if (this.isMobile) {
+      this.sidebar.close();
+    }
   }
 
   ngOnDestroy(): void {

@@ -17,19 +17,20 @@
 
       <!-- Navigation Options -->
       <div class="nav-options">
-        <a class="nav-item" routerLink="/home" routerLinkActive="active">
+        <div class="nav-item" (click)="loadComponent('home')">
           <mat-icon>home</mat-icon>
           <span>Home</span>
-        </a>
-        <a class="nav-item" routerLink="/donations" routerLinkActive="active">
+        </div>
+        <div class="nav-item" (click)="loadComponent('donations')">
           <mat-icon>volunteer_activism</mat-icon>
           <span>Donations</span>
-        </a>
-        <a class="nav-item" routerLink="/contributions" routerLinkActive="active">
+        </div>
+        <div class="nav-item" (click)="loadComponent('contributions')">
           <mat-icon>people</mat-icon>
           <span>Contributions</span>
-        </a>
+        </div>
       </div>
+
     </mat-sidenav>
     <mat-sidenav-content class="main-content">
       <div class="main-toolbar">
@@ -41,13 +42,14 @@
         </button>
         <h1 class="text-xl ml-2">Main Content</h1>
         <div class="spacer"></div>
-        <button mat-icon-button (click)="toggleTheme()" class="theme-toggle">
+        <button mat-icon-button (click)="toggleTheme()" >
           <mat-icon>{{ isDarkMode ? 'light_mode' : 'dark_mode' }}</mat-icon>
         </button>
       </div>
       <div class="content-area">
-        Your main content goes here
+        <router-outlet></router-outlet>
       </div>
+
     </mat-sidenav-content>
   </mat-sidenav-container>
 
