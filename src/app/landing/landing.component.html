@@ -1,0 +1,38 @@
+<div class="landing-container">
+  <div class="landing-content">
+    <!-- Hero section -->
+    <div class="hero-section">
+      <h1 class="main-heading">Make a difference through donations</h1>
+      <p class="sub-heading">
+        Join our community of donors and contribute to causes that matter. Your support can bring positive change to individuals and communities in need.
+      </p>
+    </div>
+
+    <!-- Action cards -->
+    <div class="action-cards">
+      <mat-card class="action-card" (click)="signup()">
+        <mat-card-content>
+          <mat-icon>person_add</mat-icon>
+          <h2>Sign Up</h2>
+          <p>Create a new account</p>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card class="action-card" (click)="login()">
+        <mat-card-content>
+          <mat-icon>login</mat-icon>
+          <h2>Sign In</h2>
+          <p>Access your account</p>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card class="action-card" (click)="continueAsGuest()">
+        <mat-card-content>
+          <mat-icon>public</mat-icon>
+          <h2>Guest</h2>
+          <p>Continue without account</p>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+</div>

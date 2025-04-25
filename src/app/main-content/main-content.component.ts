@@ -8,6 +8,7 @@ import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { MatSidenav } from '@angular/material/sidenav';
+import { AuthService } from '../services/auth.service';
 
 
 @Component({
@@ -31,12 +32,18 @@ export class MainContentComponent implements OnInit, OnDestroy {
   constructor(
     private router: Router,
     private breakpointObserver: BreakpointObserver,
+    private authService: AuthService,
     @Inject(PLATFORM_ID) private platformId: Object
   ) {
     this.isBrowser = isPlatformBrowser(this.platformId);
   }
 
   ngOnInit(): void {
+    // Check if user is logged in
+    if (!this.authService.isLoggedIn) {
+      this.router.navigate(['/']);
+    }
+
     // Only check localStorage in browser environment
     if (this.isBrowser) {
       const savedTheme = localStorage.getItem('theme');
@@ -72,11 +79,16 @@ export class MainContentComponent implements OnInit, OnDestroy {
   }
 
   loadComponent(componentName: string) {
-    this.router.navigate([componentName]);
+    this.router.navigate(['/main', componentName]);
 
     if (this.isMobile) {
       this.sidebar.close();
     }
+  }
+
+  logout(): void {
+    this.authService.logout();
+    this.router.navigate(['/']);
   }
 
   ngOnDestroy(): void {

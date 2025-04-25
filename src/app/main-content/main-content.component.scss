@@ -13,6 +13,8 @@
   color: #ffffff;
   width: 250px;
   transition: background-color 0.3s ease;
+  display: flex;
+  flex-direction: column;
 }
 
 .main-content {
@@ -83,6 +85,7 @@
 // Navigation items
 .nav-options {
   padding: 16px 0;
+  flex-grow: 1;
 }
 
 .nav-item {
@@ -93,6 +96,7 @@
   text-decoration: none;
   color: #ffffff;
   transition: background-color 0.2s ease;
+  cursor: pointer;
 
   &:hover {
     background-color: rgba(255, 255, 255, 0.1);
@@ -105,6 +109,24 @@
 
   mat-icon {
     margin-right: 16px;
+  }
+}
+
+// Sidebar footer with logout
+.sidebar-footer {
+  margin-top: auto;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.logout-item {
+  color: #ff5252;
+
+  &:hover {
+    background-color: rgba(255, 82, 82, 0.1);
+  }
+
+  mat-icon {
+    color: #ff5252;
   }
 }
 
