@@ -1,1 +1,35 @@
-<p>donations works!</p>
+<div class="donations-container" [class.dark-theme]="isDarkMode">
+  <div class="header-section">
+    <h1>Donations Dashboard</h1>
+    <p>View and manage donations for our organization</p>
+
+    <!-- Admin toggle button (for testing purposes only) -->
+    <button class="admin-toggle" (click)="toggleAdmin()">
+      {{ isAdmin ? 'Switch to Regular User' : 'Switch to Admin' }}
+    </button>
+  </div>
+
+  <div class="content-section w-full overflow-hidden">
+    <!-- Admin view: Show donation entry component -->
+    @if (isAdmin) {
+      <div class="donation-entry-wrapper w-full">
+        <h2>Donation Management</h2>
+        <app-donation-entry></app-donation-entry>
+      </div>
+    } @else {
+      <!-- Regular user view: Show donation info and stats -->
+      <div class="donation-stats">
+        <div class="donation-info-card">
+          <h2>Donation Information</h2>
+          <p>Our organization relies on donations to support our mission and activities.</p>
+          <p>Please contact an administrator to record a donation or for more information about how to contribute.</p>
+        </div>
+
+        <div class="contact-card">
+          <h3>Need Assistance?</h3>
+          <p>If you'd like to make a donation or have questions about our donation process, please reach out to our team.</p>
+        </div>
+      </div>
+    }
+  </div>
+</div>

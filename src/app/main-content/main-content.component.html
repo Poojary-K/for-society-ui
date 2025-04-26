@@ -47,7 +47,7 @@
           class="md:hidden">
           <mat-icon>menu</mat-icon>
         </button>
-        <h1 class="text-xl ml-2">Main Content</h1>
+        <h1 class="text-xl ml-2">{{ currentView }}</h1>
         <div class="spacer"></div>
         <button mat-icon-button (click)="toggleTheme()" >
           <mat-icon>{{ isDarkMode ? 'light_mode' : 'dark_mode' }}</mat-icon>

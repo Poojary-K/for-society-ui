@@ -4,6 +4,7 @@ import { DonationsComponent } from './main-content/donations/donations.component
 import { ContributionsComponent } from './main-content/contributions/contributions.component';
 import { MainContentComponent } from './main-content/main-content.component';
 import { LandingComponent } from './landing/landing.component';
+import { DonationEntryComponent } from './donation-entry/donation-entry.component';
 
 export const routes: Routes = [
   { path: '', component: LandingComponent, pathMatch: 'full' },
@@ -14,7 +15,8 @@ export const routes: Routes = [
       { path: '', redirectTo: 'home', pathMatch: 'full' },
       { path: 'home', component: HomeComponent },
       { path: 'donations', component: DonationsComponent },
-      { path: 'contributions', component: ContributionsComponent }
+      { path: 'contributions', component: ContributionsComponent },
+      { path: 'donation-entry', component: DonationEntryComponent }
     ]
   },
   { path: '**', redirectTo: '' }

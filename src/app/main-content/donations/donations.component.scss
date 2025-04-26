@@ -1,0 +1,157 @@
+.donations-container {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  color: #333333;
+  transition: all 0.3s ease;
+
+  .header-section {
+    margin-bottom: 30px;
+    border-bottom: 1px solid #e0e0e0;
+    padding-bottom: 20px;
+
+    h1 {
+      color: #3f51b5;
+      margin-bottom: 8px;
+    }
+
+    p {
+      color: #616161;
+      margin-bottom: 20px;
+    }
+
+    .admin-toggle {
+      background-color: #ff9800;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: background-color 0.3s;
+
+      &:hover {
+        background-color: #f57c00;
+      }
+    }
+  }
+
+  .content-section {
+    .donation-entry-wrapper {
+      background-color: #f5f5f5;
+      border-radius: 8px;
+      padding: 20px;
+      margin-bottom: 30px;
+      transition: background-color 0.3s ease;
+
+      h2 {
+        color: #3f51b5;
+        margin-bottom: 20px;
+      }
+    }
+
+    .donation-stats {
+      display: grid;
+      gap: 20px;
+
+      @media (min-width: 768px) {
+        grid-template-columns: 2fr 1fr;
+      }
+
+      .donation-info-card {
+        background-color: #e8eaf6;
+        border-radius: 8px;
+        padding: 30px;
+        transition: background-color 0.3s ease;
+
+        h2 {
+          color: #3f51b5;
+          margin-top: 0;
+          margin-bottom: 16px;
+        }
+
+        p {
+          font-size: 16px;
+          line-height: 1.5;
+          margin-bottom: 16px;
+
+          &:last-child {
+            margin-bottom: 0;
+          }
+        }
+      }
+
+      .contact-card {
+        background-color: #f5f5f5;
+        border-radius: 8px;
+        padding: 30px;
+        transition: background-color 0.3s ease;
+
+        h3 {
+          color: #3f51b5;
+          margin-top: 0;
+          margin-bottom: 16px;
+        }
+
+        p {
+          font-size: 16px;
+          line-height: 1.5;
+        }
+      }
+    }
+  }
+}
+
+// Dark mode styles
+:host-context(.dark-mode) .donations-container {
+  color: #e0e0e0;
+
+  .header-section {
+    border-bottom-color: #424242;
+
+    h1 {
+      color: #7986cb;
+    }
+
+    p {
+      color: #bdbdbd;
+    }
+  }
+
+  .content-section {
+    .donation-entry-wrapper {
+      background-color: #1e1e1e;
+
+      h2 {
+        color: #7986cb;
+      }
+    }
+
+    .donation-stats {
+      .donation-info-card {
+        background-color: #1e1e1e;
+
+        h2 {
+          color: #7986cb;
+        }
+
+        p {
+          color: #e0e0e0;
+        }
+      }
+
+      .contact-card {
+        background-color: #2d2d2d;
+
+        h3 {
+          color: #7986cb;
+        }
+
+        p {
+          color: #e0e0e0;
+        }
+      }
+    }
+  }
+}
+

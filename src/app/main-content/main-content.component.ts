@@ -3,12 +3,13 @@ import { isPlatformBrowser } from '@angular/common';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { Router, RouterModule } from '@angular/router';
+import { Router, RouterModule, NavigationEnd, Event as RouterEvent } from '@angular/router';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { takeUntil, filter } from 'rxjs/operators';
 import { MatSidenav } from '@angular/material/sidenav';
 import { AuthService } from '../services/auth/auth.service';
+import { ThemeService } from '../services/theme/theme.service';
 
 
 @Component({
@@ -26,6 +27,7 @@ export class MainContentComponent implements OnInit, OnDestroy {
   sidenavOpened = true;
   isDarkMode = false;
   isBrowser: boolean;
+  currentView = 'Home';
 
   private destroy$ = new Subject<void>();
 
@@ -33,6 +35,7 @@ export class MainContentComponent implements OnInit, OnDestroy {
     private router: Router,
     private breakpointObserver: BreakpointObserver,
     private authService: AuthService,
+    private themeService: ThemeService,
     @Inject(PLATFORM_ID) private platformId: Object
   ) {
     this.isBrowser = isPlatformBrowser(this.platformId);
@@ -44,13 +47,51 @@ export class MainContentComponent implements OnInit, OnDestroy {
       this.router.navigate(['/']);
     }
 
-    // Only check localStorage in browser environment
-    if (this.isBrowser) {
-      const savedTheme = localStorage.getItem('theme');
-      if (savedTheme === 'dark') {
-        this.isDarkMode = true;
-      }
+    // Subscribe to theme changes
+    this.themeService.isDarkMode$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(isDark => {
+        this.isDarkMode = isDark;
+
+        // Add or remove dark-mode class on body for toastr styling
+        if (this.isBrowser) {
+          if (isDark) {
+            document.body.classList.add('dark-mode');
+          } else {
+            document.body.classList.remove('dark-mode');
+          }
+        }
+      });
+
+    // Initialize with current value
+    this.isDarkMode = this.themeService.isDarkMode();
+
+    // Initialize body class for toastr
+    if (this.isBrowser && this.isDarkMode) {
+      document.body.classList.add('dark-mode');
     }
+
+    // Listen to route changes to update the current view
+    this.router.events.pipe(
+      filter((event: RouterEvent): event is NavigationEnd => event instanceof NavigationEnd),
+      takeUntil(this.destroy$)
+    ).subscribe((event: NavigationEnd) => {
+      const urlParts = event.urlAfterRedirects.split('/');
+      const lastPart = urlParts[urlParts.length - 1];
+
+      // Set currentView based on the route
+      if (lastPart === 'home' || lastPart === 'main') {
+        this.currentView = 'Home';
+      } else if (lastPart === 'donations') {
+        this.currentView = 'Donations';
+      } else if (lastPart === 'contributions') {
+        this.currentView = 'Contributions';
+      } else if (lastPart === 'donation-entry') {
+        this.currentView = 'Donation Entry';
+      } else {
+        this.currentView = this.capitalizeFirstLetter(lastPart);
+      }
+    });
 
     this.breakpointObserver
       .observe([Breakpoints.XSmall, Breakpoints.Small])
@@ -78,6 +119,12 @@ export class MainContentComponent implements OnInit, OnDestroy {
       });
   }
 
+  // Helper method to capitalize first letter of a string
+  private capitalizeFirstLetter(text: string): string {
+    if (!text) return 'Dashboard';
+    return text.charAt(0).toUpperCase() + text.slice(1).replace(/-/g, ' ');
+  }
+
   loadComponent(componentName: string) {
     this.router.navigate(['/main', componentName]);
 
@@ -101,10 +148,6 @@ export class MainContentComponent implements OnInit, OnDestroy {
   }
 
   toggleTheme(): void {
-    this.isDarkMode = !this.isDarkMode;
-    // Only save to localStorage in browser environment
-    if (this.isBrowser) {
-      localStorage.setItem('theme', this.isDarkMode ? 'dark' : 'light');
-    }
+    this.themeService.toggleDarkMode();
   }
 }

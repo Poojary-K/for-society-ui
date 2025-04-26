@@ -148,6 +148,8 @@
   padding: 16px;
   flex: 1;
   overflow: auto;
+  background-color: #ffffff;
+  transition: background-color 0.3s ease;
 }
 
 .spacer {
@@ -176,6 +178,11 @@
     background-color: #1e1e1e;
     border-bottom-color: rgba(255, 255, 255, 0.1);
     color: #ffffff;
+  }
+
+  .content-area {
+    background-color: #121212;
+    color: #e0e0e0;
   }
 
   .sidenav {

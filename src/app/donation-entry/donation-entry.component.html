@@ -1,0 +1,142 @@
+<!--
+  Main container with responsive width and automatic dark mode switching
+  The dark-theme class is conditionally applied based on user preference
+-->
+<div class="donation-entry-container w-full max-w-full md:max-w-4xl mx-auto p-4" [ngClass]="{'dark-theme': isDarkMode}">
+  <div class="donation-management">
+    <!-- Navigation header showing current position and navigation controls -->
+    <div class="navigation-info flex flex-col md:flex-row justify-between items-center mb-4">
+      <!-- Donation counter -->
+      <p class="mb-2 md:mb-0 text-center md:text-left" aria-live="polite">
+        Showing entry {{ currentIndex + 1 }} of {{ donations.length }}
+      </p>
+
+      <!-- Navigation buttons -->
+      <div class="navigation-buttons flex gap-2 justify-center w-full md:w-auto">
+        <button
+          mat-raised-button
+          color="primary"
+          [disabled]="currentIndex === 0"
+          (click)="previousEntry()"
+          class="flex-1 md:flex-auto"
+          aria-label="Go to previous donation">
+          <mat-icon>arrow_back</mat-icon> Previous
+        </button>
+        <button
+          mat-raised-button
+          color="primary"
+          [disabled]="currentIndex === donations.length - 1"
+          (click)="nextEntry()"
+          class="flex-1 md:flex-auto"
+          aria-label="Go to next donation">
+          Next <mat-icon>arrow_forward</mat-icon>
+        </button>
+      </div>
+    </div>
+
+    <!-- Donation form card -->
+    <mat-card class="donation-form mb-4 w-full overflow-hidden">
+      <mat-card-content>
+        <!-- Form fields in a responsive grid -->
+        <div class="form-fields grid grid-cols-1 md:grid-cols-2 gap-4">
+
+          <!-- Donor Name field with validation -->
+          <mat-form-field appearance="outline" class="w-full">
+            <mat-label>Donor Name</mat-label>
+            <input
+              matInput
+              [(ngModel)]="currentDonation.donorName"
+              (input)="onInputChange('donorName')"
+              placeholder="Enter donor name"
+              aria-required="true">
+            <mat-error *ngIf="hasError('donorName')">{{ getErrorMessage('donorName') }}</mat-error>
+            <mat-hint>Use alphabetic characters only</mat-hint>
+          </mat-form-field>
+
+          <!-- Amount field with validation -->
+          <mat-form-field appearance="outline" class="w-full">
+            <mat-label>Amount</mat-label>
+            <input
+              matInput
+              type="number"
+              [(ngModel)]="currentDonation.amount"
+              (input)="onInputChange('amount')"
+              placeholder="Enter donation amount"
+              aria-required="true">
+            <span matPrefix>$&nbsp;</span>
+            <mat-error *ngIf="hasError('amount')">{{ getErrorMessage('amount') }}</mat-error>
+            <mat-hint>Enter a positive number</mat-hint>
+          </mat-form-field>
+
+          <!-- Date picker with validation -->
+          <mat-form-field appearance="outline" class="w-full">
+            <mat-label>Date</mat-label>
+            <input
+              matInput
+              [matDatepicker]="picker"
+              [(ngModel)]="datePickerDate"
+              (dateChange)="onInputChange('date')"
+              aria-required="true">
+            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+            <mat-error *ngIf="hasError('date')">{{ getErrorMessage('date') }}</mat-error>
+          </mat-form-field>
+
+          <!-- Transaction ID field with validation -->
+          <mat-form-field appearance="outline" class="w-full">
+            <mat-label>Transaction ID</mat-label>
+            <input
+              matInput
+              [(ngModel)]="currentDonation.transactionId"
+              (input)="onInputChange('transactionId')"
+              placeholder="Enter transaction ID"
+              aria-required="true">
+            <mat-error *ngIf="hasError('transactionId')">{{ getErrorMessage('transactionId') }}</mat-error>
+            <mat-hint>Use alphanumeric characters and hyphens only</mat-hint>
+          </mat-form-field>
+        </div>
+      </mat-card-content>
+
+      <!-- Action buttons -->
+      <mat-card-actions align="end" class="flex flex-wrap justify-end gap-2 p-4">
+        <!-- Remove button -->
+        <button
+          mat-button
+          color="warn"
+          (click)="removeEntry()"
+          [disabled]="donations.length <= 1"
+          class="flex-grow md:flex-grow-0"
+          aria-label="Remove current donation">
+          <mat-icon>delete</mat-icon> Remove
+        </button>
+
+        <!-- Add Entry button - disabled when form is invalid -->
+        <button
+          mat-raised-button
+          color="primary"
+          (click)="addEntry()"
+          [disabled]="!formValid"
+          class="flex-grow md:flex-grow-0"
+          aria-label="Add new donation entry">
+          <mat-icon>add</mat-icon> Add Entry
+        </button>
+
+        <!-- Submit button - disabled when form is invalid -->
+        <button
+          mat-raised-button
+          color="accent"
+          (click)="submitDonation()"
+          [disabled]="!formValid"
+          class="flex-grow md:flex-grow-0 submit-button"
+          aria-label="Submit donation">
+          <mat-icon>send</mat-icon> Submit
+        </button>
+      </mat-card-actions>
+    </mat-card>
+
+    <!-- Donation summary section -->
+    <div class="donation-summary p-4 rounded-lg text-lg font-medium" aria-live="polite">
+      <p>Total Donations: ${{ getTotalDonations() }}</p>
+    </div>
+  </div>
+</div>
